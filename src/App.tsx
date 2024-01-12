@@ -1,38 +1,45 @@
-import { useState } from 'react'
+import { Box, Button, Container, Grid, Typography } from '@mui/material';
 
-import reactLogo from './assets/react.svg'
+import { ActivityDescription, FilterActivity, HistoryOfSearch } from './components';
+import { useAppDispatch, useAppSelector } from './hooks';
+import { getActivityThunk, selectActivity, selectStateStatus } from './store';
 
-import './App.css'
+export default function App() {
+  const dispatch = useAppDispatch();
+  const isLoading = useAppSelector(selectStateStatus);
+  const data = useAppSelector(selectActivity);
 
-import viteLogo from '/vite.svg'
-
-function App() {
-  const [count, setCount] = useState(0)
+  function onStartClickHandler() {
+    dispatch(getActivityThunk({ params: null }));
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank" rel="noreferrer">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <Container>
+      <Grid container>
+        <Grid item xs={12}>
+          <Box sx={{ mt: 2, mb: 2 }}>
+            <Typography variant={'h3'} align={'center'}>
+              Lets find funny activity!
+            </Typography>
+          </Box>
+        </Grid>
+        <Grid item xs={12}>
+          <FilterActivity />
+        </Grid>
+        <Grid item xs={12}>
+          <Box sx={{ mt: 2, mb: 2 }}>
+            <Button fullWidth variant="contained" onClick={onStartClickHandler} disabled={isLoading}>
+              Start
+            </Button>
+          </Box>
+        </Grid>
+        <Grid item xs={12}>
+          {data && <ActivityDescription {...data} isLoading={isLoading} />}
+        </Grid>
+        <Grid item xs={12}>
+          <HistoryOfSearch />
+        </Grid>
+      </Grid>
+    </Container>
+  );
 }
-
-export default App
