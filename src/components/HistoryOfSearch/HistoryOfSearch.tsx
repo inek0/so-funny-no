@@ -2,7 +2,7 @@ import { Box, Grid, Typography } from '@mui/material';
 
 import { useAppSelector } from '../../hooks';
 import { selectSearchIdx } from '../../store';
-import HistoryOfSearchDescription from '../HistoryOfSearchDescription/HistoryOfSearchDescription.tsx';
+import { HistoryOfSearchDescription } from '../HistoryOfSearchDescription';
 
 export default function HistoryOfSearch() {
   const idx = useAppSelector(selectSearchIdx);
